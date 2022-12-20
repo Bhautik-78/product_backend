@@ -1,0 +1,36 @@
+{
+  "name": "product_backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "doc": "apidoc -i src/ -o doc",
+    "lint": "eslint src",
+    "ci": "npm run lint",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Bhautik-78/product_backend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Bhautik-78/product_backend/issues"
+  },
+  "homepage": "https://github.com/Bhautik-78/product_backend#readme",
+  "dependencies": {
+    "body-parser": "^1.20.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "fs": "0.0.1-security",
+    "helmet": "^6.0.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.8.1",
+    "nodemon": "^2.0.20",
+    "request-ip": "^3.3.0",
+    "winston": "^3.8.2"
+  }
+}
