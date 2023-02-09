@@ -10,7 +10,7 @@ if ( !fs.existsSync( logDir ) ) {
     fs.mkdirSync( logDir );
 }
 
-const logger = winston.createLogger( {
+const logger = new ( winston.Logger )( {
     transports: [
         new ( winston.transports.Console )( {
             colorize: true,

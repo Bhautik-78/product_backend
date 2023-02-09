@@ -8,6 +8,7 @@ const validateToken = require("../../middlewares/validateToken");
 const router = express.Router( );
 
 router.post("/", controller.createOrder);
-router.get("/", controller.getOrder);
+router.get("/v1/", controller.getOrder);
+router.put("/v1/:id", controller.editOrder);
 
 module.exports = router;
