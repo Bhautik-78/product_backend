@@ -5,10 +5,10 @@ require('dotenv').config();
 
 exports.createOrder = async (req, res) => {
     try {
-        if (!req.body.userId) {
+        if (!req.body.mobileNumber) {
             res.status(201).send({message: "user not found!", success: false})
         } else {
-            const data = await User.findOne({_id: req.body.userId});
+            const data = await User.findOne({userMobileNumber: req.body.mobileNumber});
             if (!data) {
                 res.status(201).send({message: "user not found!", success: false})
             } else {
