@@ -10,7 +10,10 @@ const userOrder = new Schema({
     orderDetail: String,
     orderQuantity: String,
     mobileNumber: String,
-    orderStatus: String
+    orderStatus: {
+        type: String,
+        default: "pending"
+    },
 }, {
     timestamps: true,
 });

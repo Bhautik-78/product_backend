@@ -35,6 +35,20 @@ exports.getOrder = async (req, res) => {
     }
 };
 
+exports.getUserOrder = async (req, res) => {
+    try {
+        const user = await User.findById({_id: req.params.id});
+        if(user){
+            const orderData = await Order.find({mobileNumber: user.userMobileNumber})
+            res.status(200).send(orderData)
+        }else {
+            res.status(400).send({message: "something Went Wrong"})
+        }
+    } catch (err) {
+        res.status(500).send({message: err.message || "data does not exist"});
+    }
+};
+
 exports.editOrder = async (req, res) => {
     try {
         const isUpdate = await Order.updateOne({_id: req.params.id}, req.body);

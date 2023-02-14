@@ -7,7 +7,10 @@ const User = new Schema({
     userEmailId: String,
     userMobileNumber: String,
     companyName: String,
-    status: String
+    status: {
+        type: String,
+        default: "active"
+    },
 }, {
     timestamps: true,
 });

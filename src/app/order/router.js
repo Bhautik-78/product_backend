@@ -9,6 +9,7 @@ const router = express.Router( );
 
 router.post("/", controller.createOrder);
 router.get("/v1/", controller.getOrder);
+router.get("/:id", controller.getUserOrder);
 router.put("/v1/:id", controller.editOrder);
 
 module.exports = router;
