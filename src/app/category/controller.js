@@ -1,9 +1,20 @@
 const mongoose = require("mongoose");
+const path = require('path');
 const Category = mongoose.model("category");
 require('dotenv').config();
 
 exports.createCategory = async (req, res) => {
     try {
+        let file = req.file;
+        if(file){
+            const extname = path.extname(file.originalname);
+            let filename = `/uploads/category/${file.originalname}`;
+            if (extname === '.png' || extname === '.jpg' || extname === '.jpeg' || extname === '.PNG' || extname === ".webp") {
+                req.body.categoryImage = filename;
+            }else {
+                req.body.categoryImage = "";
+            }
+        }
         const isCreated = await Category.create(req.body);
         if (isCreated) {
             res.status(200).send({message: "successFully created"})
