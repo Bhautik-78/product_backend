@@ -28,7 +28,7 @@ exports.createOrder = async (req, res) => {
 exports.getOrder = async (req, res) => {
     try {
         let query = {};
-        const application = await Order.find(query);
+        const application = await Order.find(query).populate("category").populate("subCategory");
         res.status(200).send(application)
     } catch (err) {
         res.status(500).send({message: err.message || "data does not exist"});
@@ -39,7 +39,7 @@ exports.getUserOrder = async (req, res) => {
     try {
         const user = await User.findById({_id: req.params.id});
         if(user){
-            const orderData = await Order.find({mobileNumber: user.userMobileNumber})
+            const orderData = await Order.find({mobileNumber: user.userMobileNumber}).populate("category").populate("subCategory");
             res.status(200).send(orderData)
         }else {
             res.status(400).send({message: "something Went Wrong"})
