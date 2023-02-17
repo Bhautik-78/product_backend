@@ -6,12 +6,12 @@ require('dotenv').config();
 exports.createCategory = async (req, res) => {
     try {
         let file = req.file;
-        if(file){
+        if (file) {
             const extname = path.extname(file.originalname);
             let filename = `/uploads/category/${file.originalname}`;
             if (extname === '.png' || extname === '.jpg' || extname === '.jpeg' || extname === '.PNG' || extname === ".webp") {
                 req.body.categoryImage = filename;
-            }else {
+            } else {
                 req.body.categoryImage = "";
             }
         }
@@ -21,6 +21,42 @@ exports.createCategory = async (req, res) => {
         } else {
             res.status(400).send({message: "something Went Wrong"})
         }
+    } catch (err) {
+        res.status(500).send({message: err.message || "data does not exist"});
+    }
+};
+
+exports.createCategoryWithMultiImage = async (req, res) => {
+    try {
+        let file = req.files;
+        if (file.length) {
+            let imageArray = [];
+            file.forEach((item, index) => {
+                const extname = path.extname(item.originalname);
+                let filename = `/uploads/category/${item.originalname}`;
+                if (extname === '.png' || extname === '.jpg' || extname === '.jpeg' || extname === '.PNG' || extname === ".webp") {
+                    imageArray.push(filename)
+                } else {
+                    imageArray.push("")
+                }
+            });
+            req.body.categoryImageList = imageArray;
+            const isCreated = await Category.create(req.body);
+            if (isCreated) {
+                res.status(200).send({message: "successFully created"})
+            } else {
+                res.status(400).send({message: "something Went Wrong"})
+            }
+        }
+    } catch (err) {
+        res.status(500).send({message: err.message || "data does not exist"});
+    }
+};
+
+exports.getCategoryById = async (req, res) => {
+    try {
+        const application = await Category.find({_id: req.params.id});
+        res.status(200).send(application)
     } catch (err) {
         res.status(500).send({message: err.message || "data does not exist"});
     }

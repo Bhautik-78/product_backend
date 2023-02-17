@@ -9,6 +9,7 @@ const Category = new Schema({
     },
     categoryName: String,
     categoryImage: String,
+    categoryImageList: Array
 }, {
     timestamps: true,
 });

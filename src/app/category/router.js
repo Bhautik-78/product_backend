@@ -18,6 +18,8 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 router.post("/v1/", upload.single("file"), controller.createCategory);
+router.post("/v1/multiImage", upload.array("uploadedImages",1000), controller.createCategoryWithMultiImage);
+router.get("/v1/:id", controller.getCategoryById);
 router.get("/v1/", controller.getAllCategory);
 router.put("/v1/:id", controller.editCategory);
 router.get("/", controller.getCategory);
