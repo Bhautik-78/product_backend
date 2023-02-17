@@ -53,9 +53,9 @@ exports.createCategoryWithMultiImage = async (req, res) => {
     }
 };
 
-exports.getCategoryById = async (req, res) => {
+exports.getCategoryByName = async (req, res) => {
     try {
-        const application = await Category.find({_id: req.params.id});
+        const application = await Category.find({categoryName: req.params.categoryName});
         res.status(200).send(application)
     } catch (err) {
         res.status(500).send({message: err.message || "data does not exist"});
@@ -64,7 +64,9 @@ exports.getCategoryById = async (req, res) => {
 
 exports.getAllCategory = async (req, res) => {
     try {
-        let query = {};
+        let query = {
+            categoryImage: { $exists: true }
+        };
         const application = await Category.find(query);
         res.status(200).send(application)
     } catch (err) {
@@ -75,7 +77,8 @@ exports.getAllCategory = async (req, res) => {
 exports.getCategory = async (req, res) => {
     try {
         let query = {
-            active: true
+            active: true,
+            categoryImage: { $exists: true }
         };
         const application = await Category.find(query);
         res.status(200).send(application)
