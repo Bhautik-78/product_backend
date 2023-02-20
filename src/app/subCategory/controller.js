@@ -15,11 +15,16 @@ exports.createSubCategory = async (req, res) => {
                 req.body.subCategoryImage = "";
             }
         }
-        const isCreated = await subCategory.create(req.body);
-        if (isCreated) {
-            res.status(200).send({message: "successFully created"})
+        const existData = await subCategory.find({subCategory: req.body.subCategory});
+        if (existData.length > 0) {
+            res.status(200).send({message: "subCategoryName is already exist!"})
         } else {
-            res.status(400).send({message: "something Went Wrong"})
+            const isCreated = await subCategory.create(req.body);
+            if (isCreated) {
+                res.status(200).send({message: "successFully created"})
+            } else {
+                res.status(400).send({message: "something Went Wrong"})
+            }
         }
     } catch (err) {
         res.status(500).send({message: err.message || "data does not exist"});
