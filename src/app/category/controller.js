@@ -15,18 +15,23 @@ exports.createCategory = async (req, res) => {
                 req.body.categoryImage = "";
             }
         }
-        const isCreated = await Category.create(req.body);
-        if (isCreated) {
-            res.status(200).send({message: "successFully created"})
+        const existData = await Category.find({categoryName: req.body.categoryName});
+        if (existData.length > 0) {
+            res.status(200).send({message: "categoryName is already exist!"})
         } else {
-            res.status(400).send({message: "something Went Wrong"})
+            const isCreated = await Category.create(req.body);
+            if (isCreated) {
+                res.status(200).send({message: "successFully created"})
+            } else {
+                res.status(400).send({message: "something Went Wrong"})
+            }
         }
     } catch (err) {
         res.status(500).send({message: err.message || "data does not exist"});
     }
 };
 
-exports.createCategoryWithMultiImage = async (req, res) => {
+exports.updateCategoryWithMultiImage = async (req, res) => {
     try {
         let file = req.files;
         if (file.length) {
@@ -40,8 +45,7 @@ exports.createCategoryWithMultiImage = async (req, res) => {
                     imageArray.push("")
                 }
             });
-            req.body.categoryImageList = imageArray;
-            const isCreated = await Category.create(req.body);
+            const isCreated = await Category.updateOne({categoryName: req.params.categoryName}, {$set: { categoryImageList: imageArray }});
             if (isCreated) {
                 res.status(200).send({message: "successFully created"})
             } else {
@@ -64,10 +68,11 @@ exports.getCategoryByName = async (req, res) => {
 
 exports.getAllCategory = async (req, res) => {
     try {
-        let query = {
-            categoryImage: { $exists: true }
-        };
-        const application = await Category.find(query);
+        let query = {};
+        const application = await Category.find(query).lean();
+        application.forEach(object => {
+            delete object['categoryImageList'];
+        });
         res.status(200).send(application)
     } catch (err) {
         res.status(500).send({message: err.message || "data does not exist"});
@@ -77,10 +82,12 @@ exports.getAllCategory = async (req, res) => {
 exports.getCategory = async (req, res) => {
     try {
         let query = {
-            active: true,
-            categoryImage: { $exists: true }
+            active: true
         };
-        const application = await Category.find(query);
+        const application = await Category.find(query).lean();
+        application.forEach(object => {
+            delete object['categoryImageList'];
+        });
         res.status(200).send(application)
     } catch (err) {
         res.status(500).send({message: err.message || "data does not exist"});
