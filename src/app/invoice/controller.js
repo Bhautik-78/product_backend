@@ -8,10 +8,10 @@ exports.createInvoice = async (req, res) => {
         if (isCreated) {
             res.status(200).send({message: "successFully created", success: true})
         } else {
-            res.status(400).send({message: "something Went Wrong"})
+            res.status(400).send({message: "something Went Wrong", success: false})
         }
     } catch (err) {
-        res.status(500).send({message: err.message || "data does not exist"});
+        res.status(500).send({message: err.message || "data does not exist", success: false});
     }
 };
 
@@ -19,8 +19,8 @@ exports.getInvoice = async (req, res) => {
     try {
         let query = {};
         const application = await Invoice.find(query);
-        res.status(200).send(application)
+        res.status(200).send({application, success: true})
     } catch (err) {
-        res.status(500).send({message: err.message || "data does not exist"});
+        res.status(500).send({message: err.message || "data does not exist", success: true});
     }
 };
