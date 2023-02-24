@@ -143,3 +143,16 @@ exports.fetchAllImage = async (req, res) => {
         res.status(500).send({message: err.message || "data does not exist", success: false});
     }
 };
+
+exports.getMultiImageByCategoryName = async (req, res) => {
+    try {
+        const application = await Category.findOne({categoryName: req.params.id}).lean();
+        const data = application?.categoryImageList?.map(object => ({
+            original: object,
+            thumbnail: object
+        }));
+        res.status(200).send({data, success: true})
+    } catch (err) {
+        res.status(500).send({message: err.message || "data does not exist", success: false});
+    }
+};
