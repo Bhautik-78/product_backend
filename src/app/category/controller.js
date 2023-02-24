@@ -96,6 +96,16 @@ exports.getCategory = async (req, res) => {
 
 exports.editCategory = async (req, res) => {
     try {
+        let file = req.file;
+        if (file) {
+            const extname = path.extname(file.originalname);
+            let filename = `/uploads/category/${file.originalname}`;
+            if (extname === '.png' || extname === '.jpg' || extname === '.jpeg' || extname === '.PNG' || extname === ".webp") {
+                req.body.categoryImage = filename;
+            } else {
+                req.body.categoryImage = "";
+            }
+        }
         const isUpdate = await Category.updateOne({_id: req.params.id}, req.body);
         if (isUpdate) {
             res.status(200).send({message: "successFully updated", success: true})

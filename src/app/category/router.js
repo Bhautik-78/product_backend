@@ -22,7 +22,7 @@ router.post("/v1/", upload.single("file"), controller.createCategory);
 router.put("/v1/multiImage/:categoryName", upload.array("uploadedImages",1000), controller.updateCategoryWithMultiImage);
 router.get("/v1/:categoryName", controller.getCategoryByName);
 router.get("/v1/", controller.getAllCategory);
-router.put("/v1/:id", controller.editCategory);
+router.put("/v1/:id",upload.single("file"), controller.editCategory);
 router.get("/", controller.getCategory);
 router.delete("/v1/:id", controller.deleteCategory);
 
