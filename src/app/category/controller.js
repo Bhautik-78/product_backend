@@ -135,8 +135,8 @@ exports.fetchAllImage = async (req, res) => {
         let query = {};
         const application = await Category.find(query).lean();
         const data = application.map(object => ({
-            original: object?.categoryImage,
-            thumbnail: object?.categoryImage
+            original: object.categoryImage,
+            thumbnail: object.categoryImage
         }));
         res.status(200).send({data, success: true})
     } catch (err) {
@@ -147,7 +147,7 @@ exports.fetchAllImage = async (req, res) => {
 exports.getMultiImageByCategoryName = async (req, res) => {
     try {
         const application = await Category.findOne({categoryName: req.params.id}).lean();
-        const data = application?.categoryImageList?.map(object => ({
+        const data = application.categoryImageList.map(object => ({
             original: `http://35.78.171.207:8000${object}`,
             thumbnail: `http://35.78.171.207:8000${object}`
         }));
